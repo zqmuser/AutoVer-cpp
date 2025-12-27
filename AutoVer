@@ -1,0 +1,142 @@
+#!/bin/bash
+
+if [ "$#" -ne 1 ]
+then
+  echo
+  echo "Usage:  AutoVer -y"
+  echo "        AutoVer -no_update"
+  echo
+  exit
+fi
+
+if [ "$1" == "-y" ]
+then
+  update=1
+elif [ "$1" == "-no_update" ]
+then
+  update=0
+else
+  echo "ERROR: invalid input flag"
+  echo "       run without arguments to see options"
+  exit
+fi
+
+
+if [ ! -d .AutoVer ]
+then
+  echo "ERROR: AutoVer has not been initialized"
+  echo "       or you aren't in the project top level directory"
+  exit
+fi
+
+AutoVerMajor=$( head -1 .AutoVer/version )                                                        
+AutoVerMinor=$( head -2 .AutoVer/version | tail -1 )                                              
+AutoVerPatch=$( head -3 .AutoVer/version | tail -1 )
+IncrementMajor=0
+IncrementMinor=0
+IncrementPatch=0
+
+increment_version() {
+if [ "$IncrementMajor" -gt "0" ]
+then
+  NewMajor=$(( AutoVerMajor + 1 ))
+  NewMinor=0
+  NewPatch=0
+elif [ "$IncrementMinor" -gt "0" ]
+then
+  NewMajor=$AutoVerMajor
+  NewMinor=$(( AutoVerMinor + 1 ))
+  NewPatch=0
+else
+  NewMajor=$AutoVerMajor
+  NewMinor=$AutoVerMinor
+  NewPatch=$(( AutoVerPatch + 1 ))
+fi
+echo "Old version ${AutoVerMajor}.${AutoVerMinor}.${AutoVerPatch}"
+echo "New version ${NewMajor}.${NewMinor}.${NewPatch}"
+if [ "$update" -eq "1" ]
+then
+  echo $NewMajor >.AutoVer/version
+  echo $NewMinor >>.AutoVer/version
+  echo $NewPatch >>.AutoVer/version
+  AutoVerHeader $NewMajor $NewMinor $NewPatch
+  # copy new headers to previous_headers
+  rm -r .AutoVer/previous_headers
+  mv .AutoVer/new_headers .AutoVer/previous_headers
+fi
+}
+
+# make sure new_headers are empty
+if [ -d .AutoVer/new_headers ]
+then
+  rm -r .AutoVer/new_headers
+fi
+mkdir .AutoVer/new_headers
+
+#echo "Indexing header files"
+new_header_list=$( find . -type f \( -name "*.[hH]" -o -name "*.[hH][pP][pP]" -o -name "*.[hH][hH]" -o -name "*.[hH][xX][xX]" \) | grep -v AutoVer.h | cut -c 3- )
+for file_name in $new_header_list
+do
+  # make directories to put files in 
+  num_slashes=$(grep -o '/' <<< "$file_name" | wc -l)
+  #echo "$file_name $num_slashes"
+  if [ "$num_slashes" -gt "0" ]
+  then
+    directory="${file_name%/*}"
+    #echo "$file_name $directory"
+    if [ ! -d ".AutoVer/new_headers/${directory}" ]
+    then
+      mkdir -p ".AutoVer/new_headers/${directory}"
+    fi
+  fi
+  # normalize the header
+  #echo "calling AutoVerNormalize $file_name \".AutoVer/new_headers/${file_name}.norm\" "
+  AutoVerNormalize $file_name ".AutoVer/new_headers/${file_name}.norm"
+done
+
+
+old_header_list=$( find .AutoVer/previous_headers -type f -name "*.norm"  | grep -v AutoVer.h | cut -c 27- )
+
+num_new_headers=$( echo $new_header_list | wc -w )
+num_old_headers=$( echo $old_header_list | wc -w )
+#echo "num_new_headers $num_new_headers"
+#echo "num_old_headers $num_old_headers"
+
+if [ "$num_new_headers" -lt "$num_old_headers" ]
+then
+  echo "Header files have been removed"
+  IncrementMajor=1
+  increment_version 
+  exit
+fi
+
+# Compare files
+for file_name in $new_header_list
+do
+  if [ ! -f .AutoVer/previous_headers/${file_name}.norm ]
+  then
+    echo "header file $file_name has been added"
+    IncrementMinor=$(( IncrementMinor + 1 ))
+  else
+    compare_flag=$( AutoVerCompare .AutoVer/previous_headers/${file_name}.norm .AutoVer/new_headers/${file_name}.norm )
+    if [ "$compare_flag" == "MAJOR" ]
+    then
+      echo "Major update for file $file_name"
+      IncrementMajor=$(( IncrementMajor + 1 ))
+    fi
+    if [ "$compare_flag" == "MINOR" ]
+    then
+      echo "Minor update for file $file_name"
+      IncrementMinor=$(( IncrementMinor + 1 ))
+    fi
+    if [ "$compare_flag" == "PATCH" ]
+    then
+      IncrementPatch=$(( IncrementPatch + 1 ))
+    fi
+  fi
+done
+
+
+increment_version 
+exit
+

@@ -1,0 +1,95 @@
+#!/bin/bash
+
+if [ "$#" -ne 0 ]
+then
+  echo
+  echo "Usage:  AutoVerManual"
+  echo
+  exit
+fi
+
+if [ ! -d .AutoVer ]                                                                              
+then                                                                                              
+  echo "ERROR: This command must be called from"                                                  
+  echo "       the top project directory, where"                                                  
+  echo "       AutoVer has already been initialized"                                              
+  exit                                                                                            
+fi  
+
+AutoVerMajor=$( head -1 .AutoVer/version )
+AutoVerMinor=$( head -2 .AutoVer/version | tail -1 )
+AutoVerPatch=$( head -3 .AutoVer/version | tail -1 )
+
+echo "The current version is ${AutoVerMajor}.${AutoVerMinor}.${AutoVerPatch}"
+echo "in the format Major.Minor.Patch"
+echo "Major = ${AutoVerMajor}"
+echo "Minor = ${AutoVerMinor}"
+echo "Patch = ${AutoVerPatch}"
+echo "This program will let you increase (but not decrease) this version."
+
+echo 
+read -p "Do you want to increase the version (y/n): " answer
+
+if [ "$answer" == "y" ] || [ "$answer" == "Y" ]
+then
+
+  echo 
+  read -p "Enter new Major version: " NewMajor
+  if [ "$NewMajor" -lt "$AutoVerMajor" ]
+  then
+    echo "ERROR: Can not decrease major version"
+    exit
+  fi
+  if [ "$NewMajor" -gt "$AutoVerMajor" ]
+  then
+    echo "Automatically setting Minor and Patch to zero"
+    echo "New version is ${NewMajor}.0.0"
+    echo $NewMajor >.AutoVer/version
+    echo "0" >>.AutoVer/version
+    echo "0" >>.AutoVer/version
+    echo
+    AutoVerHeader $NewMajor 0 0
+    exit
+  fi
+
+  echo 
+  read -p "Enter new Minor version: " NewMinor
+  if [ "$NewMinor" -lt "$AutoVerMinor" ]
+  then
+    echo "ERROR: Can not decrease minor version"
+    exit
+  fi
+  if [ "$NewMinor" -gt "$AutoVerMinor" ]
+  then
+    echo "Automatically setting Patch to zero"
+    echo "New version is ${NewMajor}.${NewMinor}.0"
+    echo $NewMajor >.AutoVer/version
+    echo $NewMinor >>.AutoVer/version
+    echo "0" >>.AutoVer/version
+    echo
+    AutoVerHeader $NewMajor $NewMinor 0
+    exit
+  fi
+
+  echo 
+  read -p "Enter new Patch version: " NewPatch
+  if [ "$NewPatch" -lt "$AutoVerPatch" ]
+  then
+    echo "ERROR: Can not decrease path version"
+    exit
+  fi
+  if [ "$NewPatch" -gt "$AutoVerPatch" ]
+  then
+    echo "New version is ${NewMajor}.${NewMinor}.${NewPatch}"
+    echo $NewMajor >.AutoVer/version
+    echo $NewMinor >>.AutoVer/version
+    echo $NewPatch >>.AutoVer/version
+    echo
+    AutoVerHeader $NewMajor $NewMinor $NewPatch
+    exit
+  fi
+
+  echo "No change to version"
+
+fi
+

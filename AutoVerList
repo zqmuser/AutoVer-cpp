@@ -1,0 +1,29 @@
+#!/bin/bash
+
+if [ "$#" -ne 0 ]
+then
+  echo
+  echo "Usage:  AutoVerList"
+  echo
+  exit
+fi
+
+if [ ! -d .AutoVer ]                                                                              
+then                                                                                              
+  echo "ERROR: This command must be called from"                                                  
+  echo "       the top project directory, where"                                                  
+  echo "       AutoVer has already been initialized"                                              
+  exit                                                                                            
+fi  
+
+AutoVerMajor=$( head -1 .AutoVer/version )
+AutoVerMinor=$( head -2 .AutoVer/version | tail -1 )
+AutoVerPatch=$( head -3 .AutoVer/version | tail -1 )
+
+echo "The current version is ${AutoVerMajor}.${AutoVerMinor}.${AutoVerPatch}"
+echo "in the format Major.Minor.Patch"
+echo "Major = ${AutoVerMajor}"
+echo "Minor = ${AutoVerMinor}"
+echo "Patch = ${AutoVerPatch}"
+
+

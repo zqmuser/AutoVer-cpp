@@ -1,0 +1,66 @@
+#!/bin/bash
+
+if [ "$#" -ne 0 ]
+then
+  echo
+  echo "Usage:  AutoVerInit"
+  echo
+  exit
+fi
+
+if [ -d .AutoVer ]
+then
+  echo "ERROR: Can not initilize project again."
+  #echo " "
+  #echo "To remove old data (including version number) run"
+  #echo "   rm -r .AutoVer"
+  exit
+fi
+
+echo
+echo "To start using AutoVer for this project,"
+echo "you must be in the top directory."
+echo 
+read -p "Do you want to initialize AutoVer (y/n): " answer
+
+if [ "$answer" == "y" ] || [ "$answer" == "Y" ]
+then
+  echo
+  echo "Creating .AutoVer directory tree"
+  mkdir .AutoVer
+  mkdir .AutoVer/previous_headers
+
+  echo
+  echo "Setting initial version at 0.0.1"
+  echo "Increase with AutoVerManual"
+  echo "0" >.AutoVer/version
+  echo "0" >>.AutoVer/version
+  echo "1" >>.AutoVer/version
+
+  echo
+  AutoVerHeader 0 0 1
+
+  echo 
+  echo "Indexing header files"
+  header_list=$( find . -type f \( -name "*.[hH]" -o -name "*.[hH][pP][pP]" -o -name "*.[hH][hH]" -o -name "*.[hH][xX][xX]" \) | grep -v AutoVer.h | cut -c 3- )
+  for file_name in $header_list
+  do
+    # make directories to put files in 
+    num_slashes=$(grep -o '/' <<< "$file_name" | wc -l)
+    #echo "$file_name $num_slashes"
+    if [ "$num_slashes" -gt "0" ]
+    then
+      directory="${file_name%/*}"
+      #echo "$file_name $directory"
+      if [ ! -d ".AutoVer/previous_headers/${directory}" ]
+      then
+        mkdir -p ".AutoVer/previous_headers/${directory}"
+      fi
+    fi
+    # normalize the header
+    #echo "calling AutoVerNormalize $file_name \".AutoVer/previous_headers/${file_name}.norm\" "
+    AutoVerNormalize $file_name ".AutoVer/previous_headers/${file_name}.norm"
+  done
+
+fi
+

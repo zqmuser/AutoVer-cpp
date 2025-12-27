@@ -1,0 +1,30 @@
+#!/bin/bash
+
+if [ "$#" -ne 2 ]
+then
+  echo
+  echo "Usage:  AutoVerNormalize input_file output_file"
+  echo
+  exit
+fi
+
+# remove comments
+#which stripcmt
+#echo "calling stripcmt ${1} >\"${2}\" "
+stripcmt ${1} >"${2}" 
+
+# remove ^M
+dos2unix "${2}" 2>&1  | grep -v "converting file"
+
+# turn multiple spaces into single spaces
+sed -i 's/  */ /g' "${2}"
+
+# remove space at beginning of line
+sed -i 's/^ //g' "${2}"
+
+# remove trailing spaces
+sed -i 's/[[:space:]]*$//' "${2}"
+
+# remove blank lines
+sed -i '/^[[:space:]]*$/d' "${2}"
+

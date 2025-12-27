@@ -1,0 +1,143 @@
+
+DUAL-PURPOSE SOFTWARE LICENSE
+
+NAME:  The dual-purpose license for software
+
+PURPOSES and INTENT:
+
+* To allow both open source and proprietary development of the software.
+* To allow versions of the software to transition between open source and
+proprietary development.
+* To discourage anti-competitive practices.
+* To have a readable license agreement.
+* To encourage good practices by both software developers and users.
+* To address concerns by those using the software that the software could one 
+day be unavailable.
+
+LICENSE TERMS:
+
+    This license can be modified for your product, but once attached to a 
+product the only allowed modification to the license is activating or 
+deactivating the optional clause, and designating if it is a proprietary
+or open source copy of the software.
+    This software can be developed as both public domain and proprietary 
+versions or code tree branches.
+    Multiple organizations may make proprietary versions based on the public 
+domain version of the code.
+    Code in the public domain must remain accessible in the public domain.
+    Any organization can use some or all of the public domain code to make a 
+proprietary commercial product.  Additions to the software made by an 
+organization as part of a commercial product can remain proprietary if the 
+company is meeting one or more of these criteria.
+* The software is being actively developed.
+* The software is being sold at a competitive price.
+* The organization offers contract research services using the software at a
+  competitive price.
+* The organization is using the software internally for the development of its 
+  products.
+    If a commercial version of the software no longer meets any of these 
+criteria, the organization is required to contribute the code, with all 
+changes and additions they have made, back to the public domain.
+    If sales of commercial version are discontinued, a copy of the code at that 
+point must be made public domain (even if the software will still be 
+developed and used in house).
+    Proprietary code, or portions of it, can be contributed to the public 
+domain version at the maker's discretion.
+    New code contributed to the public domain version can be integrated into 
+proprietary versions.
+    Functionality may not be removed from the public domain version.
+* This does not preclude fixing bugs.
+* If functionality is unsuccessful or replaced, the old code can be kept but 
+  have no call path to use it, put in a source file not included in the link, 
+  commented out, or preserved by some similar method.
+* This requirement should not limit the ability of developers to make 
+  updates, improvements, or additions to the code.
+    Open source versions must be available free or "at cost" in a form that is 
+usable and relatively easy to install/compile by the end user.
+    Open source versions can also be sold or repackaged for sale (i.e. sold as 
+a compiled product, as part of a software collection, or with a more
+convenient installer, etc.).
+    Proprietary versions can be available for a charge (including annual, node 
+locked, floating, per hour, perpetual, source code, cloud, various discounts, 
+libraries, API access, and any other options), with no free option required 
+(but it is allowed).
+    Proprietary versions can have a license enforcement mechanism added, but it 
+must be removed or easily disabled in open source versions.
+
+SCOPE:
+
+    The terms of this license extends to any software for which the majority 
+of its functionality is only usable in conjunction with software under this 
+license.  There can be proprietary extensions to open source code and 
+open source extensions to proprietary code (i.e. pre and post processing).
+    Once a body of code is put under this license agreement, it and its future 
+versions and extensions remain under this license agreement in perpetuity.
+    This license does NOT extend to products (i.e. chemical compounds) 
+developed through the use of this software.
+    This license puts NO restrictions or requirements on those developing or 
+using the software to publish methods, results, performance comparisons, etc.
+    This license can be applied to software that began open source only, or 
+began proprietary only.
+    The software can be distributed under other names, as long as this license 
+is included.
+
+DEVELOPER OBLIGATIONS:
+
+    Those developing the code must make a good faith effort to make 
+functioning, bug free software.
+    Those developing the code must make a good faith effort to make the code 
+perform its stated function (within the limitations of the underlying 
+mathematical approximations, algorithm, etc.).
+    Those developing the code must make a good faith effort to provide good 
+documentation, including input examples, and a discussion of when or why a 
+given feature would be used (if not obvious).
+    Those developing the code must make a good faith effort to follow good 
+software development practices where applicable.
+
+USER OBLIGATIONS:
+
+    Those using the software have an obligation to report any bugs, 
+limitations, or problems encountered in using the code, if not already 
+reported or documented.
+    Those using the software have an obligation to determine situations in 
+which the methods (which may be only approximations) may give qualitatively or
+quantitatively incorrect results, and to use the software accordingly.
+
+BOTH:
+
+    Both developers and users of the software have an obligation to keep this 
+license agreement with the software, both when the software is in source 
+code form and in executable form.
+
+LIABILITY:
+
+    Users may not hold developers liable for any failings of the software to 
+work as expected.
+    Developers may not hold users liable for failures to use the software in an 
+appropriate manner.
+
+OPTIONAL: (designate if activated or deactivated)
+
+ACTIVATED The software must be used for peaceful, civilian purposes. It may not
+be used for development or testing of nuclear, chemical, or biological weapons.
+
+PROPRIETARY OR OPEN SOURCE: (designate one)
+
+    This is an OPEN SOURCE version of the source code and software.
+
+END OF LICENSE
+
+
+SUPPLEMENTAL CLARIFICATION
+
+    One example of an anti-competitive practice prohibited by this license is 
+removing functionality for import/export in a format that is interoperable with other software.
+
+    Reasons for considering deactivating the optional clause.
+* The software might be needed to fight some future Hitler in some future
+Manhattan project.
+* This clause may prevent the developers from getting government grants.
+Even if it doesn't now, government regulations change over time.
+* This clause would almost certainly decrease the income of a commercial
+product, but how much is unknown.
+

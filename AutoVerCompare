@@ -1,0 +1,52 @@
+#!/bin/bash
+
+if [ "$#" -ne 2 ]
+then
+  echo
+  echo "Usage:  AutoVerCompare old_file new_file"
+  echo
+  exit
+fi
+
+# See if they are identical
+num_diff=$( diff ${1} ${2} | wc -l )
+if [ "$num_diff" -eq "0" ]
+then
+  echo "PATCH"
+  exit
+fi
+
+# See if old functions have been removed
+num_lines_old=$( cat $1 | wc -l )
+num_lines_new=$( cat $2 | wc -l )
+if [ "$num_lines_old" -gt "$num_lines_new" ]
+then
+  echo "MAJOR"
+  exit
+fi
+
+
+num_greater=$( diff ${1} ${2} | grep ">" | wc -l )
+num_less=$( diff ${1} ${2} | grep "<" | wc -l )
+if [ "$num_less" -eq "0" ]  # no removals
+then
+
+  if [ "$num_greater" -gt "0" ] # has additions
+  then
+    echo "MINOR"
+    exit
+  fi
+
+else
+  # has removals
+  echo "MAJOR"
+  exit
+fi
+
+# final error trap for anything the script
+# can't recognize
+# This should never print if script logic is correct.
+echo "ERROR: Unrecognized file format"
+
+
+
