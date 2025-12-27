@@ -8,7 +8,7 @@ include <string>
 #define AUTOVER_H
 const unsigned int AutoVerMajor=1;
 const unsigned int AutoVerMinor=0;
-const unsigned int AutoVerPatch=0;
-const std::string AutoVerString="1.0.0";
+const unsigned int AutoVerPatch=2;
+const std::string AutoVerString="1.0.2";
 #endif
  

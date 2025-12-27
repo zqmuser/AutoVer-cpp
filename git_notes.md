@@ -7,7 +7,8 @@ https://github.com/zqmuser/AutoVer-cpp.git
 
 ## Creating the project with git.
 
-install git from the Linux OS package
+Install git from the Linux OS package
+Also install gh (github command line interace)
 
 git --version
 git init -b main
@@ -22,5 +23,14 @@ Create a new project from the github web interface
 
 git branch -M main
 git remote add origin https://github.com/zqmuser/AutoVer-cpp.git
+gh auth login --web
 git push -u origin main
+
+Adding update
+
+AutoVer -y
+git commit -m "doc updates"
+git tag -a v1.0.2 -m "Release version 1.0.2"
+git push origin v1.0.2
+
 
