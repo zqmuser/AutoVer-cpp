@@ -1,0 +1,44 @@
+#!/bin/bash
+
+if [ ! -d .AutoVer ]                                                                              
+then                                                                                              
+  echo "ERROR: This command must be called from"                                                  
+  echo "       the top project directory, where"                                                  
+  echo "       AutoVer has already been initialized"                                              
+  exit                                                                                            
+fi 
+
+echo
+version_control=$( cat .AutoVer/version_control )
+echo "The currently configured version control system is: $version_control"
+
+echo
+echo "0. Exit without any change"
+echo "1. None (or set later)"
+echo "2. Mercurial"
+echo "3. Git"
+echo
+read -p "Enter a number from this menu: " menu_pick
+
+new_vcs=$version_control
+if [ "$menu_pick" -eq "1" ]
+then
+  new_vcs="none"
+elif [ "$menu_pick" -eq "2" ]
+then
+  new_vcs="mercurial"
+  hg add AutoVer.h
+  hg add .AutoVer
+elif [ "$menu_pick" -eq "3" ]
+then
+  new_vcs="git"
+  git add AutoVer.h
+  git add .AutoVer
+fi
+
+echo "$new_vcs" >.AutoVer/version_control
+
+echo
+echo "Version control system is now: $new_vcs"
+echo
+
