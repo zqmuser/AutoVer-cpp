@@ -91,7 +91,7 @@ then
   if [ "$version_control" == "git" ]
   then
     git add AutoVer.h
-    git add -r .AutoVer
+    git add .AutoVer
   elif [ "$version_control" == "mercurial" ]
   then
     hg add AutoVer.h

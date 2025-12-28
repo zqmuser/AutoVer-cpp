@@ -52,6 +52,8 @@ AutoVerInit
    It will give you a (y/n) check to continue. 
    It is easily removed later, if you change your mind.
    If you want to start using AutoVer-cpp type "y"
+   It will look for a version control system (VCS) and 
+   offer optional VCS support.
 5. The initialization will set the version at 0.0.1
    If you want to start a higer version number, type
 ```bash
@@ -77,11 +79,20 @@ AutoVerList
 AutoVer -y
 ```
 
+If you didn't configure a version control system and
+later want to configure it, run
+```bash
+AutoVerVersionControl
+```
+
 **NOTE:** AutoVer-cpp comes with several other programs
 that are not listed in this tutorial. Those are ones 
 called internally. They should not be run by the user.
 
 ## Programs / commands
+
+Follow the prerequisite and installation process below
+before using these.
 
 Run these without arguments to see input options
 
@@ -96,6 +107,9 @@ AutoVerList - list the current version of this project,
   as of the last time AutoVer updated it.
 
 AutoVerManual - manually increase version number.
+
+AutoVerVersionControl - configure version control
+  system after initial installation.
 
 ## Prerequisites for installation
 
@@ -122,12 +136,12 @@ system package installs for any major Linux distribution.
 
 Download AutoVer-cpp
 
-Option 1) Download a git or tar file from github,
+Option 1) Download a zip or tar file from github,
           then unpack it.
 
 Option 2) Use git to download it with
 ```bash
-git clone URL
+git clone https://github.com/zqmuser/AutoVer-cpp.git 
 ```
 
 Add the directory to your PATH
@@ -136,6 +150,7 @@ Option 1) Add something like this to your .bashrc file
 ```bash
 export PATH="/FULL/PATH/TO/AutoVer-cpp:$PATH"
 ```
+Log out and log back in after doing this.
 
 Option 2) Copy the files to a directory such as
 ```bash
@@ -157,13 +172,15 @@ write down the current version number before uninstalling
 AutoVer-cpp. We recommend documenting the roll back.
 
 If you decide you want to completely remove AutoVer-cpp 
-from your project run
+from your project, run the appropriate version control
+command, from the following list.
 ``` bash
+hg remove AutoVer.h .AutoVer/*
+git rm -rf AutoVer.h .AutoVer
 rm -r AutoVer.h .AutoVer
 ```
 
-After running this, remove AutoVer.h from your 
-source code files.
+Remove AutoVer.h from your source code files.
 
 ## References
 

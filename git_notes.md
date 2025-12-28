@@ -29,6 +29,10 @@ git push -u origin main
 Adding update
 
 AutoVer -y
+git status -u
+
+Add files to get tracking if needed
+
 git commit -m "doc updates"
 git tag -a v1.0.2 -m "Release version 1.0.2"
 git push origin v1.0.2

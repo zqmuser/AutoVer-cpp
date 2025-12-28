@@ -33,7 +33,7 @@ elif [ "$menu_pick" -eq "3" ]
 then
   new_vcs="git"
   git add AutoVer.h
-  git add -r .AutoVer
+  git add .AutoVer
 fi
 
 echo "$new_vcs" >.AutoVer/version_control
