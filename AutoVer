@@ -36,6 +36,8 @@ IncrementMajor=0
 IncrementMinor=0
 IncrementPatch=0
 
+version_control=$( cat .AutoVer/version_control )
+
 increment_version() {
 if [ "$IncrementMajor" -gt "0" ]
 then
@@ -61,8 +63,105 @@ then
   echo $NewPatch >>.AutoVer/version
   AutoVerHeader $NewMajor $NewMinor $NewPatch
   # copy new headers to previous_headers
-  rm -r .AutoVer/previous_headers
-  mv .AutoVer/new_headers .AutoVer/previous_headers
+
+  # this works, but seems to mess up version control systems
+  #rm -r .AutoVer/previous_headers
+  #mv .AutoVer/new_headers .AutoVer/previous_headers
+
+  # we have a new_header_list and old_header_list
+  # we need to break it into three new_not_old old_not_new both
+  new_not_old=""
+  old_not_new=""
+  both=""
+  for new_header in $new_header_list
+  do
+
+    found=0
+    for old_header in $old_header_list
+    do
+      # use if instead of group to avoid substring matches
+      if [ "${new_header}.norm" == "$old_header" ]
+      then
+        found=1
+      fi
+    done
+
+    if [ "$found" -eq "1" ]
+    then
+      both="$both ${new_header}.norm"
+    else
+      new_not_old="$new_not_old ${new_header}.norm"
+    fi
+
+  done
+
+  for old_header in $old_header_list
+  do
+
+    found=0
+    for new_header in $new_header_list
+    do
+      # use if instead of group to avoid substring matches
+      if [ "${new_header}.norm" == "$old_header" ]
+      then
+        found=1
+      fi
+    done
+
+    if [ "$found" -eq "0" ]
+    then
+      old_not_new="$old_not_new $old_header"
+    fi
+
+  done
+
+  # old not new, needs to be removed from version control
+  for header_file in $old_not_new
+  do
+    if [ "$version_control" == "mercurial" ]
+    then
+      hg remove .AutoVer/previous_headers/$header_file
+    elif [ "$version_control" == "git" ]
+    then
+      git rm -r .AutoVer/previous_headers/$header_file
+    else
+      rm -r .AutoVer/previous_headers/$header_file
+    fi
+  done
+
+  # new not old, copy and add
+  for header_file in $new_not_old
+  do
+    if [ -d .AutoVer/new_headers/$header_file ]
+    then
+      mkdir .AutoVer/previous_headers/$header_file
+    else
+      cp .AutoVer/new_headers/$header_file .AutoVer/previous_headers/$header_file
+    fi
+
+    if [ "$version_control" == "mercurial" ]
+    then
+      hg add .AutoVer/previous_headers/$header_file
+    elif [ "$version_control" == "git" ]
+    then
+      git add .AutoVer/previous_headers/$header_file
+    fi
+  done
+
+  for header_file in $both
+  do
+    if [ ! -d .AutoVer/new_headers/$header_file ]
+    then
+      cp .AutoVer/new_headers/$header_file .AutoVer/previous_headers/$header_file
+    fi
+  done
+
+fi
+
+# updated or not, remove the data
+if [ -d .AutoVer/new_headers ]
+then 
+  rm -r .AutoVer/new_headers
 fi
 }
 

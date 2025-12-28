@@ -62,5 +62,41 @@ then
     AutoVerNormalize $file_name ".AutoVer/previous_headers/${file_name}.norm"
   done
 
+  version_control="none"
+
+  if [ -d .git ]
+  then
+    echo
+    echo "This project appears to use git."
+    read -p "Store AutoVer with git? recommended (y/n): " gitanswer
+    if [ "$gitanswer" == "y" ] || [ "$gitanswer" == "Y" ]
+    then
+      version_control="git"
+    fi
+  fi
+
+  if [ -d .hg ]
+  then
+    echo
+    echo "This project appears to use mercurial."
+    read -p "Store AutoVer with mercurial? recommended (y/n): " gitanswer
+    if [ "$gitanswer" == "y" ] || [ "$gitanswer" == "Y" ]
+    then
+      version_control="mercurial"
+    fi
+  fi
+
+  echo "${version_control}" >.AutoVer/version_control
+
+  if [ "$version_control" == "git" ]
+  then
+    git add AutoVer.h
+    git add -r .AutoVer
+  elif [ "$version_control" == "mercurial" ]
+  then
+    hg add AutoVer.h
+    hg add .AutoVer
+  fi
+
 fi
 
