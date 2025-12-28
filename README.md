@@ -139,9 +139,10 @@ Download AutoVer-cpp
 Option 1) Download a zip or tar file from github,
           then unpack it.
 
-Option 2) Use git to download it with
+Option 2) Use git to download it with a command like
 ```bash
 git clone https://github.com/zqmuser/AutoVer-cpp.git 
+git clone --branch v1.1.1 https://github.com/zqmuser/AutoVer-cpp
 ```
 
 Add the directory to your PATH

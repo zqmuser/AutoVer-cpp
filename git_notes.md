@@ -2,6 +2,9 @@
 
 Here are some notes about commands used to generate this project.
 
+I usually use mercurial, which is more user friendly than git,
+so I'm saving this file to remind me of the git commands.
+
 This is the project hosted on github at 
 https://github.com/zqmuser/AutoVer-cpp.git
 
@@ -29,6 +32,7 @@ git push -u origin main
 Adding update
 
 AutoVer -y
+git checkout main
 git status -u
 
 Add files to get tracking if needed
@@ -36,5 +40,6 @@ Add files to get tracking if needed
 git commit -m "doc updates"
 git tag -a v1.0.2 -m "Release version 1.0.2"
 git push origin v1.0.2
+git push origin main
 
 
