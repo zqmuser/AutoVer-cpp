@@ -26,7 +26,7 @@ echo "   Update with AutoVer commands." >>AutoVer.h
 echo -n "   Last updated on " >>AutoVer.h
 date +"%B %d, %Y" >>AutoVer.h
 echo "*/" >>AutoVer.h
-echo "include <string>" >>AutoVer.h
+echo "#include <string>" >>AutoVer.h
 echo "#ifndef AUTOVER_H" >>AutoVer.h
 echo "#define AUTOVER_H" >>AutoVer.h
 echo "const unsigned int AutoVerMajor=${1};" >>AutoVer.h

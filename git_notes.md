@@ -33,6 +33,7 @@ Adding update
 
 AutoVer -y
 git checkout main
+git add -A
 git status -u
 
 Add files to get tracking if needed

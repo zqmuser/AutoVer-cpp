@@ -62,6 +62,7 @@ AutoVerManual
 6. In the source code file where you want to print the version add 
 ```cpp
 #include "AutoVer.h"
+printf( my_file_ptr, "Version %s\n", AutoVerString.c_str() ); 
 ```
 **WARNING** Do NOT edit AutoVer.h instead use the AutoVer
 commands to update the version.

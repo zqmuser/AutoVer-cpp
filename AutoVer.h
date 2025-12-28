@@ -3,12 +3,12 @@
    Update with AutoVer commands.
    Last updated on December 28, 2025
 */
-include <string>
+#include <string>
 #ifndef AUTOVER_H
 #define AUTOVER_H
 const unsigned int AutoVerMajor=1;
-const unsigned int AutoVerMinor=1;
-const unsigned int AutoVerPatch=2;
-const std::string AutoVerString="1.1.2";
+const unsigned int AutoVerMinor=2;
+const unsigned int AutoVerPatch=1;
+const std::string AutoVerString="1.2.1";
 #endif
  

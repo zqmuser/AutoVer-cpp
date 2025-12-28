@@ -1,0 +1,31 @@
+#!/bin/bash
+
+if [ "$#" -ne 1 ]                                                                                 
+then                                                                                              
+  echo                                                                                            
+  echo "Usage:  AutoVerCommit \"MY COMMENT HERE\""
+  echo                                                                                            
+  exit                                                                                            
+fi 
+
+version_control=$( cat .AutoVer/version_control )
+
+AutoVer -y
+
+version=$( AutoVerList | grep "current version" | awk '{print $5}' )
+
+if [ "$version_control" == "mercurial" ]                                                      
+then                                                                                          
+  hg commit -m "$1"
+  hg tag -m "Version $version" v$version
+elif [ "$version_control" == "git" ]                                                          
+then                                                                                          
+  git add -A
+  git commit -m "$1"
+  git tag -a v$version -m "Version $version"
+else                                                                                          
+  echo "WARNING: no commit issued"
+  echo "         Configure with AutoVerVersionControl"
+fi      
+
+
