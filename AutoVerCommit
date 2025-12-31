@@ -18,11 +18,30 @@ if [ "$version_control" == "mercurial" ]
 then                                                                                          
   hg commit -m "$1"
   hg tag -m "Version $version" v$version
+
+  # example of adding a push
+  #directory=$( pwd )
+  #if [ "$directory" == "/PATH/TO/MY/PROJECT" ]
+  #then
+  #  hg push ssh://MY.REPO
+  #fi
+  # add a similar if for any or every project 
+
 elif [ "$version_control" == "git" ]                                                          
 then                                                                                          
   git add -A
   git commit -m "$1"
   git tag -a v$version -m "Version $version"
+
+  # example of adding a push
+  #directory=$( pwd )
+  #if [ "$directory" == "/PATH/TO/MY/PROJECT" ]
+  #then
+  #  git push origin v$version
+  #  git push origin main
+  #fi
+  # add a similar if for any or every project 
+
 else                                                                                          
   echo "WARNING: no commit issued"
   echo "         Configure with AutoVerVersionControl"

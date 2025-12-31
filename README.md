@@ -25,12 +25,20 @@ from one version to another.
 
 There are several options for how to use AutoVer-cpp
 * Run "AutoVer -y" just before every commit. 
-  This will automatically assign a version for each commit
+  This will automatically assign a version for each commit.
 * Run "AutoVer -y" for important commits, such as when each
   new feature is complete and tested.
 * Run "AutoVer -y" to keep versions on every development branch,
   or only run "AutoVery -y" for versioning on the main 
   development tip, say after every update or merge.
+* Printing version numbers
+  - With a --version or --help flag
+  - In an output file
+  - Gag source code revisions, even if not printed.
+
+Once you have settled on a strategy, the AutoVerCommit
+script can be modified to automate that strategy as
+a single command.
 
 ## Tutorial
 
@@ -62,7 +70,8 @@ AutoVerManual
 6. In the source code file where you want to print the version add 
 ```cpp
 #include "AutoVer.h"
-printf( my_file_ptr, "Version %s\n", AutoVerString.c_str() ); 
+fprintf( my_file_ptr, "Version %s\n", AutoVerString.c_str() ); 
+cout << "Version " << AutoVerString << "\n";
 ```
 **WARNING** Do NOT edit AutoVer.h instead use the AutoVer
 commands to update the version.
@@ -85,6 +94,21 @@ later want to configure it, run
 ```bash
 AutoVerVersionControl
 ```
+
+As a convenience, you can automatically increment the
+version with a commit using the command
+```bash
+AutoVerCommit "MY COMMENTS"
+```
+This will increment the version, commit it, and tag it
+with the version number.
+
+Usually, you download a library or utility and do not
+modify the code. One exception to this is that you may
+want to modify AutoVerCommit, which is a short, simple
+bash script. For example, if you want it to increment 
+the version, commit it, tag it, AND push it, you could
+modify AutoVerCommit to add the push.
 
 **NOTE:** AutoVer-cpp comes with several other programs
 that are not listed in this tutorial. Those are ones 
@@ -112,6 +136,9 @@ AutoVerManual - manually increase version number.
 AutoVerVersionControl - configure version control
   system after initial installation.
 
+AutoVerCommit - increment version, commit, and tag
+  all with a single command.
+
 ## Prerequisites for installation
 
 Download and install the stripcmt program from
@@ -127,6 +154,7 @@ installation. These should be default or optional operating
 system package installs for any major Linux distribution.
 * dos2unix
 * bash
+* awk
 * sed
 * diff
 * cat
@@ -176,7 +204,7 @@ AutoVer-cpp. We recommend documenting the roll back.
 If you decide you want to completely remove AutoVer-cpp 
 from your project, run the appropriate version control
 command, from the following list.
-``` bash
+```bash
 hg remove AutoVer.h .AutoVer/*
 git rm -rf AutoVer.h .AutoVer
 rm -r AutoVer.h .AutoVer
